@@ -4,7 +4,7 @@ PRTween
 PRTween is a lightweight tweening library built for iOS. While Apple has done an incredible job with UIView Animations and Core Animation, there are some conscious limitations in these systems that are difficult to get around. PRTween is a great alternative if you'd like to:
 
 * Animate a property Apple won't allow you to
-* Ensure that <pre>[someView layoutSubviews]</pre> is respected during an animation
+* Ensure that **[someView layoutSubviews]** is respected during an animation
 * Tween arbitrary numerical values, such as: sound volume, scroll position, a price counter, or many others
 * Define your timing curve as a function rather than a bezier with control points
 
@@ -35,7 +35,7 @@ The second component that makes up PRTween is an **operation**. An operation con
 	operation.timingFunction = &PRTweenTimingFunctionLinear;
 	operation.updateSelector = @selector(update:)
 
-The code creates a new operation that carries out a tween over the period we defined earlier. Additionally, you've told the operation to call the <pre>update:</pre> selector every time the value is adjusted. <pre>update:</pre> might look like this:
+The code creates a new operation that carries out a tween over the period we defined earlier. Additionally, you've told the operation to call the `update:` selector every time the value is adjusted. `update:` might look like this:
 
 	- (void)update:(PRTweenPeriod*)period {
 		NSLog(@"%f", period.tweenedValue);
@@ -45,7 +45,7 @@ Finally, you will need to add the operation to the queue.
 
 	[[PRTween sharedInstance] addTweenOperation:operation]
 	
-As soon as you've done this and run your code, you should be able to see a console trace of a value moving from 100 to 200 over the course of 3 seconds. If you wanted to apply this to an object on screen, it could be as simple as changing <pre>update:</pre> to the following:
+As soon as you've done this and run your code, you should be able to see a console trace of a value moving from 100 to 200 over the course of 3 seconds. If you wanted to apply this to an object on screen, it could be as simple as changing `update:` to the following:
 
 	// will animate the Y offset of testView from 100 to 200 over the course of 3 seconds
 	- (void)update:(PRTweenPeriod*)period {
@@ -55,7 +55,7 @@ As soon as you've done this and run your code, you should be able to see a conso
 Timing Functions
 ===
 
-Timing functions are a key feature of PRTween, and allow you to modify how an operation interprets a period. For example, try changing <pre>operation.period</pre> from <pre>&PRTweenTimingFunctionLinear</pre> to <pre>&PRTweenTimingFunctionBounceOut</pre> and running your code again. You should see a similar animation play out, but this time a bounce will be added to the end of it. PRTween comes bundled with a number of timing functions for your convenience:
+Timing functions are a key feature of PRTween, and allow you to modify how an operation interprets a period. For example, try changing `operation.period` from `&PRTweenTimingFunctionLinear` to `&PRTweenTimingFunctionBounceOut<` and running your code again. You should see a similar animation play out, but this time a bounce will be added to the end of it. PRTween comes bundled with a number of timing functions for your convenience:
 
 * PRTweenTimingFunctionLinear 
 * PRTweenTimingFunctionBack*[In / Out / InOut]*
