@@ -60,14 +60,14 @@ Timing functions are a key feature of PRTween, and allow you to modify how an op
 * PRTweenTimingFunctionLinear 
 * PRTweenTimingFunctionBack*[In / Out / InOut]*
 * PRTweenTimingFunctionBounce*[In / Out / InOut]*
-* PRTweenTimingFunctionCircOut*[In / Out / InOut]*
-* PRTweenTimingFunctionCubicOut*[In / Out / InOut]*
-* PRTweenTimingFunctionElasticOut*[In / Out / InOut]*
-* PRTweenTimingFunctionExpoOut*[In / Out / InOut]*
-* PRTweenTimingFunctionQuadOut*[In / Out / InOut]*
-* PRTweenTimingFunctionQuartOut*[In / Out / InOut]*
-* PRTweenTimingFunctionQuintOut*[In / Out / InOut]*
-* PRTweenTimingFunctionSineOut*[In / Out / InOut]*
+* PRTweenTimingFunctionCirc*[In / Out / InOut]*
+* PRTweenTimingFunctionCubic*[In / Out / InOut]*
+* PRTweenTimingFunctionElastic*[In / Out / InOut]*
+* PRTweenTimingFunctionExpo*[In / Out / InOut]*
+* PRTweenTimingFunctionQuad*[In / Out / InOut]*
+* PRTweenTimingFunctionQuart*[In / Out / InOut]*
+* PRTweenTimingFunctionQuint*[In / Out / InOut]*
+* PRTweenTimingFunctionSine*[In / Out / InOut]*
 
 We encourage you to experiment with PRTween's timing functions in your applications to see which ones you like best.
 
@@ -95,7 +95,7 @@ PRTween is incredibly young, so there many rules right now.
 Contributors
 ---
 
-* [This link](https://github.com/dominikhofmann/)Dominik Hofmann
+* [Dominik Hofmann](https://github.com/dominikhofmann/)
 
 License
 ===
