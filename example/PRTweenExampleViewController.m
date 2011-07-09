@@ -1,6 +1,5 @@
 
 #import "PRTweenExampleViewController.h"
-#import "PRTween.h"
 
 @implementation PRTweenExampleViewController
 

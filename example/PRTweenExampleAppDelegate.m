@@ -1,13 +1,5 @@
-//
-//  JSTweenAppDelegate.m
-//  JSTween
-//
-//  Created by Dominik Hofmann on 5/31/11.
-//  Copyright 2011 Jetsetter. All rights reserved.
-//
 
 #import "PRTweenExampleAppDelegate.h"
-
 #import "PRTweenExampleViewController.h"
 
 @implementation PRTweenExampleAppDelegate

@@ -1,13 +1,6 @@
 
 #import <Foundation/Foundation.h>
-
-CGFloat PRTweenTimingFunctionLinear (CGFloat, CGFloat, CGFloat, CGFloat);
-CGFloat PRTweenTimingFunctionBounceOut (CGFloat, CGFloat, CGFloat, CGFloat);
-CGFloat PRTweenTimingFunctionBounceIn (CGFloat, CGFloat, CGFloat, CGFloat);
-CGFloat PRTweenTimingFunctionBounceInOut (CGFloat, CGFloat, CGFloat, CGFloat);
-CGFloat PRTweenTimingFunctionQuintOut (CGFloat, CGFloat, CGFloat, CGFloat);
-CGFloat PRTweenTimingFunctionQuintIn (CGFloat, CGFloat, CGFloat, CGFloat);
-CGFloat PRTweenTimingFunctionQuintInOut (CGFloat, CGFloat, CGFloat, CGFloat);
+#import "PRTweenTimingFunctions.h"
 
 @interface PRTweenPeriod : NSObject {
     CGFloat startValue;
@@ -29,6 +22,22 @@ CGFloat PRTweenTimingFunctionQuintInOut (CGFloat, CGFloat, CGFloat, CGFloat);
 
 @end
 
+@interface PRTweenOperation : NSObject {
+    PRTweenPeriod *period;
+    NSObject *target;
+    SEL updateSelector;
+    SEL completeSelector;
+    CGFloat (*timingFunction)(CGFloat, CGFloat, CGFloat, CGFloat);
+}
+
+@property (nonatomic, retain) PRTweenPeriod *period;
+@property (nonatomic, retain) NSObject *target;
+@property (nonatomic) SEL updateSelector;
+@property (nonatomic) SEL completeSelector;
+@property (nonatomic, assign) CGFloat (*timingFunction)(CGFloat, CGFloat, CGFloat, CGFloat);
+
+@end
+
 @interface PRTween : NSObject {
     NSMutableArray *tweenOperations;
     NSMutableArray *expiredTweenOperations;
@@ -39,8 +48,9 @@ CGFloat PRTweenTimingFunctionQuintInOut (CGFloat, CGFloat, CGFloat, CGFloat);
 @property (nonatomic, readonly) CGFloat timeOffset;
 
 + (PRTween *)sharedInstance;
-- (NSDictionary*)addTweenPeriod:(PRTweenPeriod *)period target:(NSObject *)target selector:(SEL)selector;
-- (NSDictionary*)addTweenPeriod:(PRTweenPeriod *)period target:(NSObject *)target selector:(SEL)selector timingFunction:(CGFloat (*)(CGFloat, CGFloat, CGFloat, CGFloat))timingFunction;
-- (void)removeTweenOperation:(NSDictionary*)tweenOperation;
+- (PRTweenOperation*)addOperation:(PRTweenOperation*)operation;
+- (PRTweenOperation*)addTweenPeriod:(PRTweenPeriod *)period target:(NSObject *)target selector:(SEL)selector;
+- (PRTweenOperation*)addTweenPeriod:(PRTweenPeriod *)period target:(NSObject *)target selector:(SEL)selector timingFunction:(CGFloat (*)(CGFloat, CGFloat, CGFloat, CGFloat))timingFunction;
+- (void)removeTweenOperation:(PRTweenOperation*)tweenOperation;
 
 @end
