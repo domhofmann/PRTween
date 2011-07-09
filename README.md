@@ -27,7 +27,7 @@ A **period** is a representation of three points in time (beginning, current, an
 
 	PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:100 endValue:200 duration:3];
 	
-The second component that makes up PRTween is an **operation**. An operation contains logistic information about how a period should play out, as well as what should happen while it does. You can think of a period as an abstract representation of work that should be carried out, and an operation as the worker who decides *how* it gets carried out. An operation might get added to the queue like this:
+The second component that makes up PRTween is an **operation**. An operation contains logistic information about how a period should play out, as well as what should happen while it does. You can think of a period as an abstract representation of work that should be carried out, and an operation as the worker who decides *how* it gets carried out. An operation might look like this:
 	 
 	PRTweenOperation *operation = [[PRTweenOperation new] autorelease];
 	operation.period = period;
@@ -35,7 +35,7 @@ The second component that makes up PRTween is an **operation**. An operation con
 	operation.timingFunction = &PRTweenTimingFunctionLinear;
 	operation.updateSelector = @selector(update:)
 
-The code creates a new operation that carries out a tween over the period we defined earlier. Additionally, you've told the operation to call the `update:` selector every time the value is adjusted. `update:` might look like this:
+The code above creates a new operation that carries out a tween over the period we defined earlier. Additionally, you've told the operation to call the `update:` selector every time the value is adjusted. `update:` might look like this:
 
 	- (void)update:(PRTweenPeriod*)period {
 		NSLog(@"%f", period.tweenedValue);
@@ -84,7 +84,7 @@ API docs are coming with the next push. Until then, you are encouraged to dig th
 Contributing
 ===
 
-PRTween is incredibly young, so there many rules right now.
+PRTween is incredibly young, so there aren't many rules right now.
 
 * Fork it
 * Fix it or add it
