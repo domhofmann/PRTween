@@ -5,7 +5,7 @@ PRTween is a lightweight tweening library built for iOS. While Apple has done an
 
 * Animate a property Apple won't allow you to
 * Ensure that `[someView layoutSubviews]` is respected during an animation
-* Tween arbitrary numerical values, such as: sound volume, scroll position, a counter, or many others
+* Tween arbitrary numerical values, such as sound volume, scroll position, a counter, or many others
 * Define your timing curve as a function rather than a bezier with control points
 
 Installation
@@ -30,7 +30,7 @@ The second component that makes up PRTween is an **operation**. An operation con
 	operation.timingFunction = &PRTweenTimingFunctionLinear;
 	operation.updateSelector = @selector(update:)
 
-The code above creates a new operation that carries out a tween over the period we defined earlier. Additionally, you've told the operation to call the `update:` selector every time the value is adjusted. `update:` might look like this:
+The code above creates a new operation that carries out a tween over the period we defined earlier. Additionally, you've told the operation to call the `update:` selector on `self` every time the value is adjusted. `update:` might look like this:
 
 	- (void)update:(PRTweenPeriod*)period {
 		NSLog(@"%f", period.tweenedValue);
