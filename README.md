@@ -5,7 +5,7 @@ PRTween is a lightweight tweening library built for iOS. While Apple has done an
 
 * Animate a property Apple won't allow you to
 * Ensure that `[someView layoutSubviews]` is respected during an animation
-* Tween arbitrary numerical values, such as: sound volume, scroll position, a price counter, or many others
+* Tween arbitrary numerical values, such as: sound volume, scroll position, a counter, or many others
 * Define your timing curve as a function rather than a bezier with control points
 
 Installation
