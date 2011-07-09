@@ -13,11 +13,6 @@ Installation
 
 Simply grab the PRTween and PRTweenTimingFunction files from /lib/ and get them into your project.
 
-Example Project
-===
-
-If you prefer to learn by looking at code that is already written, you can check out the example project in /example/
-
 Usage
 ===
 
