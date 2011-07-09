@@ -50,7 +50,7 @@ As soon as you've done this and run your code, you should be able to see a conso
 Timing Functions
 ===
 
-Timing functions are a key feature of PRTween, and allow you to modify how an operation interprets a period. For example, try changing `operation.period` from `&PRTweenTimingFunctionLinear` to `&PRTweenTimingFunctionBounceOut` and running your code again. You should see a similar animation play out, but this time a bounce will be added to the end of it. PRTween comes bundled with a number of timing functions for your convenience:
+Timing functions are a key feature of PRTween, and allow you to modify how an operation interprets a period. For example, try changing `operation.timingFunction` from `&PRTweenTimingFunctionLinear` to `&PRTweenTimingFunctionBounceOut` and running your code again. You should see a similar animation play out, but this time a bounce will be added to the end of it. PRTween comes bundled with a number of timing functions for your convenience:
 
 * PRTweenTimingFunctionLinear 
 * PRTweenTimingFunctionBack*[In / Out / InOut]*
