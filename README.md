@@ -64,7 +64,7 @@ Timing functions are a key feature of PRTween, and allow you to modify how an op
 * PRTweenTimingFunctionQuint*[In / Out / InOut]*
 * PRTweenTimingFunctionSine*[In / Out / InOut]*
 
-We encourage you to experiment with PRTween's timing functions in your applications to see which ones you like best.
+You should take some time to experiment with PRTween's timing functions in your applications to see which ones you like best.
 
 Custom Functions
 ---
