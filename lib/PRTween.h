@@ -1,5 +1,6 @@
 
 #import <Foundation/Foundation.h>
+
 #import "PRTweenTimingFunctions.h"
 
 @interface PRTweenPeriod : NSObject {
@@ -28,6 +29,11 @@
     SEL updateSelector;
     SEL completeSelector;
     CGFloat (*timingFunction)(CGFloat, CGFloat, CGFloat, CGFloat);
+    
+#if NS_BLOCKS_AVAILABLE
+    void (^completionBlock)();
+    void (^updateBlock)(PRTweenPeriod *period);    
+#endif
 }
 
 @property (nonatomic, retain) PRTweenPeriod *period;
@@ -35,6 +41,11 @@
 @property (nonatomic) SEL updateSelector;
 @property (nonatomic) SEL completeSelector;
 @property (nonatomic, assign) CGFloat (*timingFunction)(CGFloat, CGFloat, CGFloat, CGFloat);
+
+#if NS_BLOCKS_AVAILABLE
+@property (nonatomic, copy) void (^updateBlock)(PRTweenPeriod *period);
+@property (nonatomic, copy) void (^completionBlock)();
+#endif
 
 @end
 
@@ -49,6 +60,12 @@
 
 + (PRTween *)sharedInstance;
 - (PRTweenOperation*)addOperation:(PRTweenOperation*)operation;
+
+#if NS_BLOCKS_AVAILABLE
+- (PRTweenOperation*)addTweenPeriod:(PRTweenPeriod *)period updateBlock:(void (^)(PRTweenPeriod *period))updateBlock completionBlock:(void (^)())completionBlock;
+- (PRTweenOperation*)addTweenPeriod:(PRTweenPeriod *)period updateBlock:(void (^)(PRTweenPeriod *period))updateBlock completionBlock:(void (^)())completionBlock timingFunction:(CGFloat (*)(CGFloat, CGFloat, CGFloat, CGFloat))timingFunction;
+#endif
+
 - (PRTweenOperation*)addTweenPeriod:(PRTweenPeriod *)period target:(NSObject *)target selector:(SEL)selector;
 - (PRTweenOperation*)addTweenPeriod:(PRTweenPeriod *)period target:(NSObject *)target selector:(SEL)selector timingFunction:(CGFloat (*)(CGFloat, CGFloat, CGFloat, CGFloat))timingFunction;
 - (void)removeTweenOperation:(PRTweenOperation*)tweenOperation;
