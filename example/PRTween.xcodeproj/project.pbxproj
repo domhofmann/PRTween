@@ -18,6 +18,7 @@
 		B25002D8139558F700670D11 /* PRTweenExampleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B25002D6139558F700670D11 /* PRTweenExampleViewController.xib */; };
 		B4A2EBFD13C8AFAE006EB549 /* PRTweenTimingFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A2EBFB13C8AFAE006EB549 /* PRTweenTimingFunctions.m */; };
 		B4F3069513C8BFCA00355204 /* PRTween.m in Sources */ = {isa = PBXBuildFile; fileRef = B4F3069313C8BFCA00355204 /* PRTween.m */; };
+		F3957B2813F2FA78005FD683 /* libSystem.B.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F3957B2713F2FA78005FD683 /* libSystem.B.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		B4A2EBFB13C8AFAE006EB549 /* PRTweenTimingFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PRTweenTimingFunctions.m; path = ../lib/PRTweenTimingFunctions.m; sourceTree = "<group>"; };
 		B4A2EBFC13C8AFAE006EB549 /* PRTweenTimingFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PRTweenTimingFunctions.h; path = ../lib/PRTweenTimingFunctions.h; sourceTree = "<group>"; };
 		B4F3069313C8BFCA00355204 /* PRTween.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PRTween.m; path = ../lib/PRTween.m; sourceTree = "<group>"; };
+		F3957B2713F2FA78005FD683 /* libSystem.B.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSystem.B.dylib; path = usr/lib/libSystem.B.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3957B2813F2FA78005FD683 /* libSystem.B.dylib in Frameworks */,
 				B25002BF139558F700670D11 /* UIKit.framework in Frameworks */,
 				B25002C1139558F700670D11 /* Foundation.framework in Frameworks */,
 				B25002C3139558F700670D11 /* CoreGraphics.framework in Frameworks */,
@@ -58,6 +61,7 @@
 		B25002AF139558F700670D11 = {
 			isa = PBXGroup;
 			children = (
+				F3957B2713F2FA78005FD683 /* libSystem.B.dylib */,
 				B262C66A1397D0550092094F /* Example */,
 				B25002C4139558F700670D11 /* PRTween */,
 				B25002BD139558F700670D11 /* Frameworks */,
