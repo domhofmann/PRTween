@@ -12,8 +12,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-     
-    self.window.rootViewController = self.viewController;
+    
+    // Check to make sure can set rootviewcontroller (available > 4.0)
+    if ([self.window respondsToSelector:@selector(setRootViewController:)]) {
+        self.window.rootViewController = self.viewController;
+    } else {
+        [self.window addSubview:self.viewController.view];
+    }
+
     [self.window makeKeyAndVisible];
     return YES;
 }
