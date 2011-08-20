@@ -22,10 +22,6 @@
     return [period autorelease];
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
-
 @end
 
 @implementation PRTweenOperation
@@ -34,6 +30,24 @@
 @synthesize updateSelector;
 @synthesize completeSelector;
 @synthesize timingFunction;
+
+#if NS_BLOCKS_AVAILABLE
+
+@synthesize updateBlock;
+@synthesize completionBlock;
+
+#endif
+
+- (void)dealloc {
+#if NS_BLOCKS_AVAILABLE
+    [updateBlock release];
+    [completionBlock release];
+#endif
+    [period release];
+    [target release];
+    [super dealloc];
+}
+
 @end
 
 @interface PRTween ()
@@ -69,6 +83,28 @@ static PRTween *instance;
     [tweenOperations addObject:operation];
     return operation;
 }
+
+#if NS_BLOCKS_AVAILABLE
+- (PRTweenOperation*)addTweenPeriod:(PRTweenPeriod *)period 
+                        updateBlock:(void (^)(PRTweenPeriod *period))updateBlock 
+                    completionBlock:(void (^)())completionBlock {
+    return [self addTweenPeriod:period updateBlock:updateBlock completionBlock:completionBlock timingFunction:&PRTweenTimingFunctionLinear];
+}
+
+- (PRTweenOperation*)addTweenPeriod:(PRTweenPeriod *)period 
+                        updateBlock:(void (^)(PRTweenPeriod *period))anUpdateBlock 
+                    completionBlock:(void (^)())aCompletionBlock 
+                     timingFunction:(CGFloat (*)(CGFloat, CGFloat, CGFloat, CGFloat))timingFunction {
+
+    PRTweenOperation *tweenOperation = [[PRTweenOperation new] autorelease];
+    tweenOperation.period = period;
+    tweenOperation.timingFunction = timingFunction;
+    tweenOperation.updateBlock = anUpdateBlock;
+    tweenOperation.completionBlock = aCompletionBlock;
+    return [self addOperation:tweenOperation];
+
+}
+#endif
 
 - (PRTweenOperation*)addTweenPeriod:(PRTweenPeriod *)period target:(NSObject *)target selector:(SEL)selector {
     return [self addTweenPeriod:period target:target selector:selector timingFunction:&PRTweenTimingFunctionLinear];
@@ -121,8 +157,22 @@ static PRTween *instance;
             NSObject *target = tweenOperation.target;
             SEL selector = tweenOperation.updateSelector;
             
-            if (period != nil && target != nil && selector != NULL) {
-                [target performSelector:selector withObject:period afterDelay:0];
+            if (period != nil) {
+                if (target != nil && selector != NULL) {
+                    [target performSelector:selector withObject:period afterDelay:0];    
+                }
+                
+                // Check to see if blocks/GCD are supported
+                if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_4_0) {
+                    double delayInSeconds = 0.0;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        // fire off update block
+                        if (tweenOperation.updateBlock != NULL) {
+                            tweenOperation.updateBlock(period);
+                        } 
+                    });
+                }
             }
         }
     }
@@ -130,6 +180,13 @@ static PRTween *instance;
     // clean up expired tween operations
     for (PRTweenOperation *tweenOperation in expiredTweenOperations) {
         if (tweenOperation.completeSelector) [tweenOperation.target performSelector:tweenOperation.completeSelector withObject:nil afterDelay:0];
+            // Check to see if blocks/GCD are supported
+            if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_4_0) {        
+                if (tweenOperation.completionBlock != NULL) {
+                    tweenOperation.completionBlock();
+                }
+            }
+        
         [tweenOperations removeObject:tweenOperation];
         tweenOperation = nil;
     }
@@ -140,6 +197,7 @@ static PRTween *instance;
     [tweenOperations release];
     [expiredTweenOperations release];
     [timer invalidate];
+
     [super dealloc];
 }
 

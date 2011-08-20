@@ -91,6 +91,7 @@ Contributors
 ---
 
 * [Dominik Hofmann](https://github.com/dominikhofmann/)
+* [Matt Herzog](https://github.com/mattherzog/)
 
 License
 ===

@@ -29,21 +29,63 @@
     [[PRTween sharedInstance] removeTweenOperation:activeTweenOperation];
     
     PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:0.0 endValue:904 duration:1.5];
-    activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period target:self selector:@selector(update:)];
+    
+    if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_4_0)
+    {
+        activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period
+                                                            updateBlock:^(PRTweenPeriod *period) {
+                                                                [self update:period];
+                                                            }
+                                                        completionBlock:^{
+                                                            NSLog(@"Completion");
+                                                        }];
+        
+    }
+    else
+    {
+        activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period target:self selector:@selector(update:)];        
+    }
 }
 
 - (IBAction)bounceOutTapped {
     [[PRTween sharedInstance] removeTweenOperation:activeTweenOperation];
     
     PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:0.0 endValue:904 duration:1.5];
-    activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period target:self selector:@selector(update:) timingFunction:&PRTweenTimingFunctionBounceOut];
+
+    if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_4_0) {
+        activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period
+                                                            updateBlock:^(PRTweenPeriod *period) {
+                                                                [self update:period];
+                                                            }
+                                                        completionBlock:^{
+                                                            NSLog(@"Completion");
+                                                        }
+                                                         timingFunction:&PRTweenTimingFunctionBounceOut];
+        
+    } else {
+        activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period target:self selector:@selector(update:) timingFunction:&PRTweenTimingFunctionBounceOut];        
+    }
+
 }
 
 - (IBAction)bounceInTapped {
     [[PRTween sharedInstance] removeTweenOperation:activeTweenOperation];
     
     PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:0.0 endValue:904 duration:1.5];
-    activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period target:self selector:@selector(update:) timingFunction:&PRTweenTimingFunctionBounceIn];
+    
+    if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_4_0) {
+        activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period
+                                                            updateBlock:^(PRTweenPeriod *period) {
+                                                                [self update:period];
+                                                            }
+                                                        completionBlock:^{
+                                                            NSLog(@"Completion");
+                                                        }
+                                                         timingFunction:&PRTweenTimingFunctionBounceIn];
+    }
+    else {
+        activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period target:self selector:@selector(update:) timingFunction:&PRTweenTimingFunctionBounceIn];
+    }
 }
 
 - (IBAction)bounceOutDelayTapped {
@@ -51,14 +93,40 @@
     
     PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:0.0 endValue:904 duration:1.5];
     period.delay = 1.5;
-    activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period target:self selector:@selector(update:) timingFunction:&PRTweenTimingFunctionBounceOut];
+    
+    if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_4_0) {
+        activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period
+                                                            updateBlock:^(PRTweenPeriod *period) {
+                                                                [self update:period];
+                                                            }
+                                                        completionBlock:^{
+                                                            NSLog(@"Completion");
+                                                        }
+                                                         timingFunction:&PRTweenTimingFunctionBounceOut];
+    }
+    else {
+        activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period target:self selector:@selector(update:) timingFunction:&PRTweenTimingFunctionBounceOut];
+    }
 }
 
 - (IBAction)quintOutTapped {
     [[PRTween sharedInstance] removeTweenOperation:activeTweenOperation];
     
     PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:0.0 endValue:904 duration:0.6];
-    activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period target:self selector:@selector(update:) timingFunction:&PRTweenTimingFunctionQuintOut];
+    
+    if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_4_0) {
+        activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period
+                                                            updateBlock:^(PRTweenPeriod *period) {
+                                                                [self update:period];
+                                                            }
+                                                        completionBlock:^{
+                                                            NSLog(@"Completion");
+                                                        }
+                                                         timingFunction:&PRTweenTimingFunctionQuintOut];
+    }
+    else {
+        activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period target:self selector:@selector(update:) timingFunction:&PRTweenTimingFunctionQuintOut];
+    }
 }
 
 - (void)viewDidUnload
