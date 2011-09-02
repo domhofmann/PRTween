@@ -176,7 +176,7 @@ CGFloat PRTweenTimingFunctionSineOut (CGFloat t, CGFloat b, CGFloat c, CGFloat d
     return c * sin(t/d * (M_PI/2)) + b;
 }
 
-CGFloat PRTweenTimingFunctioSineIn (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
+CGFloat PRTweenTimingFunctionSineIn (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
     return -c * cos(t/d * (M_PI/2)) + c + b;
 }
 
