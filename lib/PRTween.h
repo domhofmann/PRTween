@@ -59,7 +59,10 @@
 @property (nonatomic, readonly) CGFloat timeOffset;
 
 + (PRTween *)sharedInstance;
-- (PRTweenOperation*)addOperation:(PRTweenOperation*)operation;
+
++ (void)tween:(CGFloat*)ref from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration;
+
+- (PRTweenOperation*)addTweenOperation:(PRTweenOperation*)operation;
 
 #if NS_BLOCKS_AVAILABLE
 - (PRTweenOperation*)addTweenPeriod:(PRTweenPeriod *)period updateBlock:(void (^)(PRTweenPeriod *period))updateBlock completionBlock:(void (^)())completionBlock;

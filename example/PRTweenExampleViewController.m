@@ -28,6 +28,11 @@
 - (IBAction)linearTapped {
     [[PRTween sharedInstance] removeTweenOperation:activeTweenOperation];
     
+    CGFloat x = 20;
+    
+    [PRTween tween:&x from:0 to:20 duration:1.0];
+    
+    /*
     PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:0.0 endValue:904 duration:1.5];
     
     if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_4_0)
@@ -45,6 +50,7 @@
     {
         activeTweenOperation = [[PRTween sharedInstance] addTweenPeriod:period target:self selector:@selector(update:)];        
     }
+    */
 }
 
 - (IBAction)bounceOutTapped {

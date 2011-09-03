@@ -66,6 +66,18 @@ static PRTween *instance;
     return instance;
 }
 
++ (void)tween:(CGFloat *)ref from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration {
+    
+    PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:from endValue:to duration:duration];
+    PRTweenOperation *operation = [[PRTween sharedInstance] addTweenPeriod:period target:nil selector:NULL];
+    [operation addObserver:[PRTween sharedInstance] forKeyPath:@"period" options:NSKeyValueObservingOptionNew context:NULL];
+    
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    NSLog(@"%@", keyPath);
+}
+
 - (id)init {
     self = [super init];
     if (self != nil) {
@@ -79,7 +91,7 @@ static PRTween *instance;
     return self;
 }
 
-- (PRTweenOperation*)addOperation:(PRTweenOperation*)operation {
+- (PRTweenOperation*)addTweenOperation:(PRTweenOperation*)operation {
     [tweenOperations addObject:operation];
     return operation;
 }
@@ -101,7 +113,7 @@ static PRTween *instance;
     tweenOperation.timingFunction = timingFunction;
     tweenOperation.updateBlock = anUpdateBlock;
     tweenOperation.completionBlock = aCompletionBlock;
-    return [self addOperation:tweenOperation];
+    return [self addTweenOperation:tweenOperation];
 
 }
 #endif
@@ -118,7 +130,7 @@ static PRTween *instance;
     tweenOperation.timingFunction = timingFunction;
     tweenOperation.updateSelector = selector;
     
-    return [self addOperation:tweenOperation];
+    return [self addTweenOperation:tweenOperation];
     
 }
 
@@ -188,6 +200,7 @@ static PRTween *instance;
             }
         
         [tweenOperations removeObject:tweenOperation];
+        [tweenOperation removeObserver:[PRTween sharedInstance] forKeyPath:@"period"];
         tweenOperation = nil;
     }
     [expiredTweenOperations removeAllObjects];
