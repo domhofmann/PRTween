@@ -123,7 +123,7 @@ PRTween also supports shorthands for blocks and lerps, explained below.
 Blocks
 ===
 
-If you are targeting iOS 4 or greater, you can take advantage of blocks when using PRTween. Blocks are a wonderful way to keep all your code in one place. For example, we could remove the `update:` method from the example above, and replace it with the following line in our declaration of `operation`:
+If you are targeting iOS 4 or greater, you can take advantage of blocks when using PRTween. Blocks are particularly useful for keeping all your code in one place. For example, we could remove the `update:` method from the example above, and replace it with the following line in our declaration of `operation`:
 
 ```objective-c
 operation.updateBlock = ^(PRTweenPeriod *period) {
@@ -131,7 +131,7 @@ operation.updateBlock = ^(PRTweenPeriod *period) {
 };
 ```
 	
-We can also use blocks to execute code after the animation is complete.
+You can also use blocks to execute code after the animation is complete.
 
 ```objective-c
 operation.completeBlock = ^{
@@ -152,7 +152,7 @@ Blocks are also available on shorthands:
 Lerps
 ===
 
-Many times we find it necessary to animate a complex value, such as a `CGPoint`. Although we could write two tweens for the `x` and `y` fields, it is much simpler to use linear interpolation, or **lerps**. In PRTween, a lerp is differentiated from a normal tween by using a `PRTweenLerpPeriod`. For example, we might change our declaration of `period` above:
+Sometimes you will find it necessary to animate a complex value, such as a `CGPoint`. Although you could write two tweens for the `x` and `y` fields, it is much simpler to use linear interpolation, or **lerps**. In PRTween, a lerp is differentiated from a normal tween by using a `PRTweenLerpPeriod`. For example, we might change our declaration of `period` above:
 
 ```objective-c
 PRTweenCGPointLerpPeriod *period = [PRTweenCGPointLerpPeriod periodWithStartCGPoint:CGPointMake(0, 0) endCGPoint:CGPointMake(100, 100) duration:2];
