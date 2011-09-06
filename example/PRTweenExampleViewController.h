@@ -9,10 +9,13 @@
     
 }
 
-- (IBAction)linearTapped;
+- (IBAction)defaultTapped;
 - (IBAction)bounceOutTapped;
-- (IBAction)bounceInTapped;
-- (IBAction)bounceOutDelayTapped;
 - (IBAction)quintOutTapped;
+- (IBAction)pointLerpTapped;
+- (IBAction)rectLerpTapped;
+- (IBAction)verboseTapped;
+- (IBAction)blockTapped;
+- (IBAction)shorthandTapped;
 
 @end

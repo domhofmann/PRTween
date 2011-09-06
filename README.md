@@ -1,12 +1,18 @@
 PRTween
 ===
 
-PRTween is a lightweight tweening library built for iOS. While Apple has done an incredible job with UIView Animations and Core Animation, there are some conscious limitations in these systems that are difficult to get around. PRTween is a great alternative if you'd like to:
+PRTween is a lightweight tweening library built for iOS. While Apple has done an incredible job with UIView Animations and Core Animation, there are sometimes cases that are difficult to get around. PRTween is a great alternative if you'd like to:
 
-* Animate a property Apple won't allow you to
+* Animate a property Core Animation won't allow you to
 * Ensure that `[someView layoutSubviews]` is respected during an animation
 * Tween arbitrary numerical values, such as sound volume, scroll position, a counter, or many others
 * Define your timing curve as a function rather than a bezier with control points
+
+PRTween aims to be as simple as possible without sacrificing flexibility. In many cases, an animation may be as simple as:
+
+```objective-c
+[PRTween tween:someView property:@"alpha" from:1 to:0 duration:3];
+```
 
 Installation
 ===
@@ -20,32 +26,42 @@ At its core, PRTween is broken into two components.
 
 A **period** is a representation of three points in time (beginning, current, and end) for a particular value that you plan on tweening. For example, suppose that are tweening a value from 100 to 200 over the course of 3 seconds. You can create an object to represent that period like this:
 
-	PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:100 endValue:200 duration:3];
+```objective-c
+PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:100 endValue:200 duration:3];
+```
 	
 The second component that makes up PRTween is an **operation**. An operation contains logistic information about how a period should play out, as well as what should happen while it does. You can think of a period as an abstract representation of work that should be carried out, and an operation as the worker who decides *how* it gets carried out. An operation might look like this:
-	 
-	PRTweenOperation *operation = [[PRTweenOperation new] autorelease];
-	operation.period = period;
-	operation.target = self;
-	operation.timingFunction = &PRTweenTimingFunctionLinear;
-	operation.updateSelector = @selector(update:)
+
+```objective-c	 
+PRTweenOperation *operation = [[PRTweenOperation new] autorelease];
+operation.period = period;
+operation.target = self;
+operation.timingFunction = &PRTweenTimingFunctionLinear;
+operation.updateSelector = @selector(update:)
+```
 
 The code above creates a new operation that carries out a tween over the period we defined earlier. Additionally, you've told the operation to call the `update:` selector on `self` every time the value is adjusted. `update:` might look like this:
 
-	- (void)update:(PRTweenPeriod*)period {
-		NSLog(@"%f", period.tweenedValue);
-	}
-	
+```objective-c
+- (void)update:(PRTweenPeriod*)period {
+	NSLog(@"%f", period.tweenedValue);
+}
+```
+
 Finally, you will need to add the operation to the queue.
 
-	[[PRTween sharedInstance] addTweenOperation:operation]
+```objective-c
+[[PRTween sharedInstance] addTweenOperation:operation]
+```
 	
 As soon as you've done this and run your code, you should be able to see a console trace of a value moving from 100 to 200 over the course of 3 seconds. If you wanted to apply this to an object on screen, it could be as simple as changing `update:` to the following:
 
-	// will animate the Y offset of testView from 100 to 200 over the course of 3 seconds
-	- (void)update:(PRTweenPeriod*)period {
-	    testView.frame = CGRectMake(0, period.tweenedValue, 100, 100);
-	}
+```objective-c
+// will animate the Y offset of testView from 100 to 200 over the course of 3 seconds
+- (void)update:(PRTweenPeriod*)period {
+    testView.frame = CGRectMake(0, period.tweenedValue, 100, 100);
+}
+```
 	
 Timing Functions
 ===
@@ -66,15 +82,108 @@ Timing functions are a key feature of PRTween, and allow you to modify how an op
 
 You should take some time to experiment with PRTween's timing functions in your applications to see which ones you like best.
 
+Whenever `timingFunction` is omitted from a tween in PRTween, the default timing function is used. This is accessible through the `defaultTimingFunction` property on `PRTween`, although you will generally access it through `[PRTween sharedInstance].defaultTimingFunction`.
+
 Custom Functions
 ---
 
 One of the most powerful capabilities of PRTween is the ability to write your own timing functions. In lieu of documentation at this time, have a look through PRTweenTimingFunctions.m for example timing functions.
 
+Shorthand
+===
+
+The code in the examples above is far from unwieldy, but it could still stand to be simplified. For the most common cases, PRTween offers **shorthand** functionality to reduce the amount of code that needs to be written.
+
+For example, a simple alpha tween may be written concisely as:
+
+```objective-c
+[PRTween tween:testView property:@"alpha" from:1 to:0 duration:3];
+```
+
+You can also directly tween values that might not be properties. Suppose you're developing a game that has a scrollPosition `CGFloat`:
+
+```objective-c
+[PRTween tween:&scrollPosition from:0 to:20 duration:3];
+```
+
+PRTween currently supports the following base shorthands:
+
+```objective-c
+// for properties on objects
+[PRTween tween:property:from:to:duration:timingFunction:target:completeSelector:]
+[PRTween tween:property:from:to:duration:]
+
+// for values
+[PRTween tween:from:to:duration:timingFunction:target:completeSelector:]
+[PRTween tween:from:to:duration:]
+```
+	
+PRTween also supports shorthands for blocks and lerps, explained below.
+
+Blocks
+===
+
+If you are targeting iOS 4 or greater, you can take advantage of blocks when using PRTween. Blocks are a wonderful way to keep all your code in one place. For example, we could remove the `update:` method from the example above, and replace it with the following line in our declaration of `operation`:
+
+```objective-c
+operation.updateBlock = ^(PRTweenPeriod *period) {
+    testView.frame = CGRectMake(0, period.tweenedValue, 100, 100);
+};
+```
+	
+We can also use blocks to execute code after the animation is complete.
+
+```objective-c
+operation.completeBlock = ^{
+	NSLog("@All done!")
+};
+```
+	
+Blocks are also available on shorthands:
+
+```objective-c
+// for properties on objects
+[PRTween tween:property:from:to:duration:timingFunction:updateBlock:completeBlock]
+
+// for values
+[PRTween tween:from:to:duration:timingFunction:updateBlock:completeBlock]
+```
+	
+Lerps
+===
+
+Many times we find it necessary to animate a complex value, such as a `CGPoint`. Although we could write two tweens for the `x` and `y` fields, it is much simpler to use linear interpolation, or **lerps**. In PRTween, a lerp is differentiated from a normal tween by using a `PRTweenLerpPeriod`. For example, we might change our declaration of `period` above:
+
+```objective-c
+PRTweenCGPointLerpPeriod *period = [PRTweenCGPointLerpPeriod periodWithStartCGPoint:CGPointMake(0, 0) endCGPoint:CGPointMake(100, 100) duration:2];
+```
+
+PRTween currently has built-in lerps for `CGPoint` and `CGRect` through `PRTweenCGPointLerpPeriod` and `PRTweenCGRectLerpPeriod`. Lerps are also available as shorthands:
+
+```objective-c
+// for CGPoint
+[PRTweenCGPointLerp lerp:property:from:to:duration:timingFunction:target:completeSelector:]
+[PRTweenCGPointLerp lerp:property:from:to:duration:]
+
+// for CGRect
+[PRTweenCGRectLerp lerp:property:from:to:duration:timingFunction:target:completeSelector:]
+[PRTweenCGRectLerp lerp:property:from:to:duration:]
+
+
+// blocks for iOS 4 or greater
+[PRTweenCGPointLerp lerp:property:from:to:duration:timingFunction:target:updateBlock:completeBlock:]
+[PRTweenCGRectLerp lerp:property:from:to:duration:timingFunction:target:updateBlock:completeBlock:]
+```
+
+Custom Lerps
+---
+
+One of the most powerful features of PRTween is its ability to use custom lerps. In general, classes that subclass `PRTweenLerpPeriod` and implement the `<PRTweenLerpPeriod>` protocol may be used as custom lerps. This allows us to tween any complex numerical value with ease. Documentation is forthcoming, but for now you can check the code behind `PRTweenCGPointLerpPeriod` for more details.
+
 Advanced
 ===
 
-API docs are coming with the next push. Until then, you are encouraged to dig through the code for details on advanced functionality. PRTween is incredibly minimal, so you can probably figure everything out in an hour or two.
+API docs are coming shortly. Until then, you are encouraged to dig through the code for details on advanced functionality. PRTween is very minimal, so you can probably figure everything out in an hour or two.
 
 Contributing
 ===
