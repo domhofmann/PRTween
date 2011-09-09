@@ -183,3 +183,27 @@ CGFloat PRTweenTimingFunctionSineIn (CGFloat t, CGFloat b, CGFloat c, CGFloat d)
 CGFloat PRTweenTimingFunctionSineInOut (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
     return -c/2 * (cos(M_PI*t/d) - 1) + b;
 }
+
+CGFloat PRTweenTimingFunctionCALinear (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
+    return 0;
+}
+
+CGFloat PRTweenTimingFunctionCAEaseIn (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
+    return 0;
+}
+
+CGFloat PRTweenTimingFunctionCAEaseOut (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
+    return 0;
+}
+
+CGFloat PRTweenTimingFunctionCAEaseInOut (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
+    return 0;
+}
+
+CGFloat PRTweenTimingFunctionCADefault (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
+    return 0;
+}
+
+CGFloat (*PRTweenTimingFunctionCACustom(CAMediaTimingFunction *timingFunction))(CGFloat, CGFloat, CGFloat, CGFloat) {
+    return &PRTweenTimingFunctionLinear;
+}

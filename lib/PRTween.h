@@ -76,6 +76,8 @@ typedef void (^PRTweenCompleteBlock)();
     SEL boundGetter;
     SEL boundSetter;
     
+    BOOL usesBuiltInAnimation;
+    
 #if NS_BLOCKS_AVAILABLE
     PRTweenUpdateBlock updateBlock;
     PRTweenCompleteBlock completeBlock; 
@@ -97,6 +99,7 @@ typedef void (^PRTweenCompleteBlock)();
 @property (nonatomic, retain) id boundObject;
 @property (nonatomic) SEL boundGetter;
 @property (nonatomic) SEL boundSetter;
+@property (nonatomic) BOOL usesBuiltInAnimation;
 
 @end
 
@@ -123,10 +126,12 @@ typedef void (^PRTweenCompleteBlock)();
     CGFloat timeOffset;
     
     PRTweenTimingFunction defaultTimingFunction;
+    BOOL useBuiltInAnimationsWhenPossible;
 }
 
 @property (nonatomic, readonly) CGFloat timeOffset;
 @property (nonatomic, assign) PRTweenTimingFunction defaultTimingFunction;
+@property (nonatomic, assign) BOOL useBuiltInAnimationsWhenPossible;
 
 + (PRTween *)sharedInstance;
 

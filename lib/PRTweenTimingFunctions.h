@@ -22,6 +22,7 @@
 */
 
 #import <Foundation/Foundation.h>
+#import <QuartzCore/QuartzCore.h>
 
 CGFloat PRTweenTimingFunctionLinear (CGFloat, CGFloat, CGFloat, CGFloat);
 
@@ -64,3 +65,13 @@ CGFloat PRTweenTimingFunctionQuintInOut (CGFloat, CGFloat, CGFloat, CGFloat);
 CGFloat PRTweenTimingFunctionSineOut (CGFloat, CGFloat, CGFloat, CGFloat);
 CGFloat PRTweenTimingFunctionSineIn (CGFloat, CGFloat, CGFloat, CGFloat);
 CGFloat PRTweenTimingFunctionSineInOut (CGFloat, CGFloat, CGFloat, CGFloat);
+
+CGFloat PRTweenTimingFunctionCALinear (CGFloat, CGFloat, CGFloat, CGFloat);
+CGFloat PRTweenTimingFunctionCAEaseIn (CGFloat, CGFloat, CGFloat, CGFloat);
+CGFloat PRTweenTimingFunctionCAEaseOut (CGFloat, CGFloat, CGFloat, CGFloat);
+CGFloat PRTweenTimingFunctionCAEaseInOut (CGFloat, CGFloat, CGFloat, CGFloat);
+CGFloat PRTweenTimingFunctionCADefault (CGFloat, CGFloat, CGFloat, CGFloat);
+
+CGFloat (*PRTweenTimingFunctionCACustom(CAMediaTimingFunction *timingFunction))(CGFloat, CGFloat, CGFloat, CGFloat);
+
+
