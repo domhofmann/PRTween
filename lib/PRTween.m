@@ -103,6 +103,10 @@
 
 @end
 
+@interface PRTweenOperation ()
+@property (nonatomic) BOOL canUseBuiltAnimation;
+@end
+
 @implementation PRTweenOperation
 @synthesize period;
 @synthesize target;
@@ -113,7 +117,8 @@
 @synthesize boundObject;
 @synthesize boundGetter;
 @synthesize boundSetter;
-@synthesize usesBuiltInAnimation;
+@synthesize canUseBuiltAnimation;
+@synthesize override;
 
 #if NS_BLOCKS_AVAILABLE
 @synthesize updateBlock;
@@ -135,17 +140,17 @@
 
 @implementation PRTweenCGPointLerp
 
-+ (void)lerp:(id)object property:(NSString *)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector {
-    [PRTween lerp:object property:property period:[PRTweenCGPointLerpPeriod periodWithStartCGPoint:from endCGPoint:to duration:1] timingFunction:timingFunction target:target completeSelector:selector];
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector {
+    return [PRTween lerp:object property:property period:[PRTweenCGPointLerpPeriod periodWithStartCGPoint:from endCGPoint:to duration:1] timingFunction:timingFunction target:target completeSelector:selector];
 }
 
-+ (void)lerp:(id)object property:(NSString *)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration {
-    [PRTweenCGPointLerp lerp:object property:property from:from to:to duration:duration timingFunction:[PRTween sharedInstance].defaultTimingFunction target:nil completeSelector:NULL];
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration {
+    return [PRTweenCGPointLerp lerp:object property:property from:from to:to duration:duration timingFunction:NULL target:nil completeSelector:NULL];
 }
 
 #if NS_BLOCKS_AVAILABLE
-+ (void)lerp:(id)object property:(NSString *)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock {
-    [PRTween lerp:object property:property period:[PRTweenCGPointLerpPeriod periodWithStartCGPoint:from endCGPoint:to duration:1] timingFunction:timingFunction updateBlock:updateBlock completeBlock:completeBlock];
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock {
+    return [PRTween lerp:object property:property period:[PRTweenCGPointLerpPeriod periodWithStartCGPoint:from endCGPoint:to duration:1] timingFunction:timingFunction updateBlock:updateBlock completeBlock:completeBlock];
 }
 #endif
 
@@ -153,17 +158,17 @@
 
 @implementation PRTweenCGRectLerp
 
-+ (void)lerp:(id)object property:(NSString *)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector {
-    [PRTween lerp:object property:property period:[PRTweenCGRectLerpPeriod periodWithStartCGRect:from endCGRect:to duration:1] timingFunction:timingFunction target:target completeSelector:selector];
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector {
+    return [PRTween lerp:object property:property period:[PRTweenCGRectLerpPeriod periodWithStartCGRect:from endCGRect:to duration:1] timingFunction:timingFunction target:target completeSelector:selector];
 }
 
-+ (void)lerp:(id)object property:(NSString *)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration {
-    [PRTweenCGRectLerp lerp:object property:property from:from to:to duration:duration timingFunction:[PRTween sharedInstance].defaultTimingFunction target:nil completeSelector:NULL];
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration {
+    return [PRTweenCGRectLerp lerp:object property:property from:from to:to duration:duration timingFunction:NULL target:nil completeSelector:NULL];
 }
 
 #if NS_BLOCKS_AVAILABLE
-+ (void)lerp:(id)object property:(NSString *)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock { 
-    [PRTweenCGRectLerp lerp:object property:property from:from to:to duration:duration timingFunction:[PRTween sharedInstance].defaultTimingFunction updateBlock:updateBlock completeBlock:completeBlock];
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock { 
+    return [PRTweenCGRectLerp lerp:object property:property from:from to:to duration:duration timingFunction:NULL updateBlock:updateBlock completeBlock:completeBlock];
 }
 #endif
 
@@ -190,7 +195,7 @@ static NSArray *animationSelectorsForUIView = nil;
     return instance;
 }
 
-+ (void)tween:(id)object property:(NSString*)property from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject*)target completeSelector:(SEL)selector {
++ (PRTweenOperation *)tween:(id)object property:(NSString*)property from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject*)target completeSelector:(SEL)selector {
     
     PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:from endValue:to duration:duration];
     PRTweenOperation *operation = [PRTweenOperation new];
@@ -202,11 +207,12 @@ static NSArray *animationSelectorsForUIView = nil;
     operation.boundSetter = NSSelectorFromString([NSString stringWithFormat:@"set%@:", [property stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[[property substringToIndex:1] capitalizedString]]]);
     [operation addObserver:[PRTween sharedInstance] forKeyPath:@"period.tweenedValue" options:NSKeyValueObservingOptionNew context:NULL];
     
-    [[PRTween sharedInstance] addTweenOperation:operation];
+    [[PRTween sharedInstance] performSelector:@selector(addTweenOperation:) withObject:operation afterDelay:0];
+    return operation;
     
 }
 
-+ (void)tween:(CGFloat *)ref from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject*)target completeSelector:(SEL)selector {
++ (PRTweenOperation *)tween:(CGFloat *)ref from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject*)target completeSelector:(SEL)selector {
     
     PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:from endValue:to duration:duration];
     PRTweenOperation *operation = [PRTweenOperation new];
@@ -216,19 +222,20 @@ static NSArray *animationSelectorsForUIView = nil;
     operation.boundRef = ref;
     [operation addObserver:[PRTween sharedInstance] forKeyPath:@"period.tweenedValue" options:NSKeyValueObservingOptionNew context:NULL];
     
-    [[PRTween sharedInstance] addTweenOperation:operation];
+    [[PRTween sharedInstance] performSelector:@selector(addTweenOperation:) withObject:operation afterDelay:0];
+    return operation;
     
 }
 
-+ (void)tween:(id)object property:(NSString*)property from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration {
-    [PRTween tween:object property:property from:from to:to duration:duration timingFunction:[PRTween sharedInstance].defaultTimingFunction target:nil completeSelector:NULL];
++ (PRTweenOperation *)tween:(id)object property:(NSString*)property from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration {
+    return [PRTween tween:object property:property from:from to:to duration:duration timingFunction:NULL target:nil completeSelector:NULL];
 }
 
-+ (void)tween:(CGFloat *)ref from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration {
-    [PRTween tween:ref from:from to:to duration:duration timingFunction:[PRTween sharedInstance].defaultTimingFunction target:nil completeSelector:NULL];
++ (PRTweenOperation *)tween:(CGFloat *)ref from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration {
+    return [PRTween tween:ref from:from to:to duration:duration timingFunction:NULL target:nil completeSelector:NULL];
 }
 
-+ (void)lerp:(id)object property:(NSString *)property period:(PRTweenLerpPeriod <PRTweenLerpPeriod> *)period  timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector {
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property period:(PRTweenLerpPeriod <PRTweenLerpPeriod> *)period  timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector {
     
     //PRTweenPeriod *period = [PRTweenLerpPeriod periodWithStartValue:from endValue:to duration:duration];
     PRTweenOperation *operation = [PRTweenOperation new];
@@ -240,12 +247,13 @@ static NSArray *animationSelectorsForUIView = nil;
     operation.boundSetter = NSSelectorFromString([NSString stringWithFormat:@"set%@:", [property capitalizedString]]);
     [operation addObserver:[PRTween sharedInstance] forKeyPath:@"period.tweenedLerp" options:NSKeyValueObservingOptionNew context:NULL];
     
-    [[PRTween sharedInstance] addTweenOperation:operation];
+    [[PRTween sharedInstance] performSelector:@selector(addTweenOperation:) withObject:operation afterDelay:0];
+    return operation;
     
 }
 
 #if NS_BLOCKS_AVAILABLE
-+ (void)tween:(id)object property:(NSString*)property from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock {
++ (PRTweenOperation *)tween:(id)object property:(NSString*)property from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock {
     
     PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:from endValue:to duration:duration];
     PRTweenOperation *operation = [PRTweenOperation new];
@@ -258,11 +266,12 @@ static NSArray *animationSelectorsForUIView = nil;
     operation.boundSetter = NSSelectorFromString([NSString stringWithFormat:@"set%@:", [property capitalizedString]]);
     [operation addObserver:[PRTween sharedInstance] forKeyPath:@"period.tweenedValue" options:NSKeyValueObservingOptionNew context:NULL];
     
-    [[PRTween sharedInstance] addTweenOperation:operation];
+    [[PRTween sharedInstance] performSelector:@selector(addTweenOperation:) withObject:operation afterDelay:0];
+    return operation;
     
 }
 
-+ (void)tween:(CGFloat *)ref from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock {
++ (PRTweenOperation *)tween:(CGFloat *)ref from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock {
     
     PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:from endValue:to duration:duration];
     PRTweenOperation *operation = [PRTweenOperation new];
@@ -273,11 +282,12 @@ static NSArray *animationSelectorsForUIView = nil;
     operation.boundRef = ref;
     [operation addObserver:[PRTween sharedInstance] forKeyPath:@"period.tweenedValue" options:NSKeyValueObservingOptionNew context:NULL];
     
-    [[PRTween sharedInstance] addTweenOperation:operation];
+    [[PRTween sharedInstance] performSelector:@selector(addTweenOperation:) withObject:operation afterDelay:0];
+    return operation;
     
 }
 
-+ (void)lerp:(id)object property:(NSString *)property period:(PRTweenLerpPeriod <PRTweenLerpPeriod> *)period  timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock {
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property period:(PRTweenLerpPeriod <PRTweenLerpPeriod> *)period  timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock {
     
     //PRTweenPeriod *period = [PRTweenLerpPeriod periodWithStartValue:from endValue:to duration:duration];
     PRTweenOperation *operation = [PRTweenOperation new];
@@ -290,7 +300,8 @@ static NSArray *animationSelectorsForUIView = nil;
     operation.boundSetter = NSSelectorFromString([NSString stringWithFormat:@"set%@:", [property capitalizedString]]);
     [operation addObserver:[PRTween sharedInstance] forKeyPath:@"period.tweenedLerp" options:NSKeyValueObservingOptionNew context:NULL];
     
-    [[PRTween sharedInstance] addTweenOperation:operation];
+    [[PRTween sharedInstance] performSelector:@selector(addTweenOperation:) withObject:operation afterDelay:0];
+    return operation;
     
 }
 #endif
@@ -351,7 +362,7 @@ static NSArray *animationSelectorsForUIView = nil;
 
 - (PRTweenOperation*)addTweenOperation:(PRTweenOperation*)operation {
     
-    if (useBuiltInAnimationsWhenPossible) {
+    if (useBuiltInAnimationsWhenPossible && !operation.override) {
     
         if (animationSelectorsForCoreAnimation == nil) {
             animationSelectorsForCoreAnimation = [[NSArray alloc] initWithObjects:
@@ -390,12 +401,26 @@ static NSArray *animationSelectorsForUIView = nil;
                                         nil];
         }
         
+        if (operation.boundSetter && operation.boundObject && !(operation.timingFunction == &PRTweenTimingFunctionCADefault ||
+                                                                operation.timingFunction == &PRTweenTimingFunctionCAEaseIn ||
+                                                                operation.timingFunction == &PRTweenTimingFunctionCAEaseOut ||
+                                                                operation.timingFunction == &PRTweenTimingFunctionCAEaseInOut ||
+                                                                operation.timingFunction == &PRTweenTimingFunctionCALinear ||
+                                                                operation.timingFunction == &PRTweenTimingFunctionUIViewEaseIn ||
+                                                                operation.timingFunction == &PRTweenTimingFunctionUIViewEaseOut ||
+                                                                operation.timingFunction == &PRTweenTimingFunctionUIViewEaseInOut ||
+                                                                operation.timingFunction == &PRTweenTimingFunctionUIViewLinear || 
+                                                                operation.timingFunction == NULL)) {
+            goto complete;
+        }
+                                                               
+        
         if (operation.boundSetter && operation.boundObject && [operation.boundObject isKindOfClass:[CALayer class]]) {
             for (NSString *selector in animationSelectorsForCoreAnimation) {
                 NSString *setter = NSStringFromSelector(operation.boundSetter);
                 if ([selector isEqualToString:setter]) {
                     NSLog(@"Using Core Animation for %@", NSStringFromSelector(operation.boundSetter));
-                    operation.usesBuiltInAnimation = YES;
+                    operation.canUseBuiltAnimation = YES;
                     
                     NSString *propertyUnformatted = [selector stringByReplacingCharactersInRange:NSMakeRange(0, 3) withString:@""];
                     NSString *propertyFormatted = [[propertyUnformatted stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[[propertyUnformatted substringToIndex:1] lowercaseString]] substringToIndex:[propertyUnformatted length] - 1];
@@ -427,8 +452,7 @@ static NSArray *animationSelectorsForUIView = nil;
                     [operation.boundObject setValue:animation.toValue forKeyPath:propertyFormatted];
                     [operation.boundObject addAnimation:animation forKey:@"PRTweenCAAnimation"];
                     
-                    [tweenOperations addObject:operation];
-                    return operation;
+                    goto complete;
                 }
             }
         } else if (operation.boundSetter && operation.boundObject && [operation.boundObject isKindOfClass:[UIView class]]) {
@@ -436,7 +460,7 @@ static NSArray *animationSelectorsForUIView = nil;
                 NSString *setter = NSStringFromSelector(operation.boundSetter);
                 if ([selector isEqualToString:setter]) {
                     NSLog(@"Using UIView Animation for %@", NSStringFromSelector(operation.boundSetter));
-                    operation.usesBuiltInAnimation = YES;
+                    operation.canUseBuiltAnimation = YES;
                     
                     NSString *propertyUnformatted = [selector stringByReplacingCharactersInRange:NSMakeRange(0, 3) withString:@""];
                     NSString *propertyFormatted = [[propertyUnformatted stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[[propertyUnformatted substringToIndex:1] lowercaseString]] substringToIndex:[propertyUnformatted length] - 1];
@@ -456,14 +480,28 @@ static NSArray *animationSelectorsForUIView = nil;
                     [operation.boundObject setValue:fromValue forKeyPath:propertyFormatted];
                     [UIView beginAnimations:nil context:NULL];
                     [UIView setAnimationDuration:operation.period.duration];
+                    
+                    if (operation.timingFunction == &PRTweenTimingFunctionUIViewEaseIn) {
+                        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+                    } else if (operation.timingFunction == &PRTweenTimingFunctionUIViewEaseOut) {
+                        [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+                    } else if (operation.timingFunction == &PRTweenTimingFunctionUIViewEaseInOut) {
+                       [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+                    } else if (operation.timingFunction == &PRTweenTimingFunctionUIViewLinear) {
+                        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+                    }
+                    
                     [operation.boundObject setValue:toValue forKeyPath:propertyFormatted];
                     [UIView commitAnimations];
+                    
+                    goto complete;
                 }
             }
         }
         
     }
     
+complete:
     [tweenOperations addObject:operation];
     return operation;
 }
@@ -526,8 +564,11 @@ static NSArray *animationSelectorsForUIView = nil;
         }
         
         CGFloat (*timingFunction)(CGFloat, CGFloat, CGFloat, CGFloat) = tweenOperation.timingFunction;
+        if (timingFunction == NULL) {
+            timingFunction = self.defaultTimingFunction;
+        }
         
-        if (timingFunction != NULL && tweenOperation.usesBuiltInAnimation == NO) {
+        if (timingFunction != NULL && tweenOperation.canUseBuiltAnimation == NO) {
             if (timeOffset <= period.startOffset + period.delay + period.duration) {
                 if ([period isKindOfClass:[PRTweenLerpPeriod class]]) {
                     if ([period conformsToProtocol:@protocol(PRTweenLerpPeriod)]) {
@@ -568,7 +609,7 @@ static NSArray *animationSelectorsForUIView = nil;
                     });
                 }
             }
-        } else if (tweenOperation.usesBuiltInAnimation == YES) {
+        } else if (tweenOperation.canUseBuiltAnimation == YES) {
             if (timeOffset > period.startOffset + period.delay + period.duration) {
                 [expiredTweenOperations addObject:tweenOperation];
             }
@@ -577,7 +618,6 @@ static NSArray *animationSelectorsForUIView = nil;
     
     // clean up expired tween operations
     for (PRTweenOperation *tweenOperation in expiredTweenOperations) {
-        NSLog(@"removing");
         if (tweenOperation.completeSelector) [tweenOperation.target performSelector:tweenOperation.completeSelector withObject:nil afterDelay:0];
         // Check to see if blocks/GCD are supported
         if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_4_0) {        

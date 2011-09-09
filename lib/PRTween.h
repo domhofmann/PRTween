@@ -76,12 +76,15 @@ typedef void (^PRTweenCompleteBlock)();
     SEL boundGetter;
     SEL boundSetter;
     
-    BOOL usesBuiltInAnimation;
+    BOOL override;
     
 #if NS_BLOCKS_AVAILABLE
     PRTweenUpdateBlock updateBlock;
     PRTweenCompleteBlock completeBlock; 
 #endif
+    
+    @private
+    BOOL canUseBuiltAnimation;
 }
 
 @property (nonatomic, retain) PRTweenPeriod *period;
@@ -99,23 +102,23 @@ typedef void (^PRTweenCompleteBlock)();
 @property (nonatomic, retain) id boundObject;
 @property (nonatomic) SEL boundGetter;
 @property (nonatomic) SEL boundSetter;
-@property (nonatomic) BOOL usesBuiltInAnimation;
+@property (nonatomic) BOOL override;
 
 @end
 
 @interface PRTweenCGPointLerp : NSObject
-+ (void)lerp:(id)object property:(NSString*)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector;
-+ (void)lerp:(id)object property:(NSString*)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration;
++ (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector;
++ (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration;
 #if NS_BLOCKS_AVAILABLE
-+ (void)lerp:(id)object property:(NSString*)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock;
++ (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock;
 #endif
 @end
 
 @interface PRTweenCGRectLerp : NSObject
-+ (void)lerp:(id)object property:(NSString*)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector;
-+ (void)lerp:(id)object property:(NSString*)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration;
++ (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector;
++ (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration;
 #if NS_BLOCKS_AVAILABLE
-+ (void)lerp:(id)object property:(NSString*)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock;
++ (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock;
 #endif
 @end
 
@@ -135,30 +138,30 @@ typedef void (^PRTweenCompleteBlock)();
 
 + (PRTween *)sharedInstance;
 
-+ (void)tween:(id)object property:(NSString*)property from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject*)target completeSelector:(SEL)selector;
++ (PRTweenOperation *)tween:(id)object property:(NSString*)property from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject*)target completeSelector:(SEL)selector;
 
-+ (void)tween:(CGFloat*)ref from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject*)target completeSelector:(SEL)selector;
++ (PRTweenOperation *)tween:(CGFloat*)ref from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject*)target completeSelector:(SEL)selector;
 
-+ (void)tween:(id)object property:(NSString*)property from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration;
++ (PRTweenOperation *)tween:(id)object property:(NSString*)property from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration;
 
-+ (void)tween:(CGFloat*)ref from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration;
++ (PRTweenOperation *)tween:(CGFloat*)ref from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration;
 
-+ (void)lerp:(id)object property:(NSString*)property period:(PRTweenLerpPeriod <PRTweenLerpPeriod> *)period timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector;
++ (PRTweenOperation *)lerp:(id)object property:(NSString*)property period:(PRTweenLerpPeriod <PRTweenLerpPeriod> *)period timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector;
 
-- (PRTweenOperation*)addTweenOperation:(PRTweenOperation*)operation;
-- (PRTweenOperation*)addTweenPeriod:(PRTweenPeriod *)period target:(NSObject *)target selector:(SEL)selector;
-- (PRTweenOperation*)addTweenPeriod:(PRTweenPeriod *)period target:(NSObject *)target selector:(SEL)selector timingFunction:(PRTweenTimingFunction)timingFunction;
+- (PRTweenOperation *)addTweenOperation:(PRTweenOperation*)operation;
+- (PRTweenOperation *)addTweenPeriod:(PRTweenPeriod *)period target:(NSObject *)target selector:(SEL)selector;
+- (PRTweenOperation *)addTweenPeriod:(PRTweenPeriod *)period target:(NSObject *)target selector:(SEL)selector timingFunction:(PRTweenTimingFunction)timingFunction;
 - (void)removeTweenOperation:(PRTweenOperation*)tweenOperation;
 
 #if NS_BLOCKS_AVAILABLE
-+ (void)tween:(id)object property:(NSString*)property from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock;
++ (PRTweenOperation *)tween:(id)object property:(NSString*)property from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock;
 
-+ (void)tween:(CGFloat*)ref from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock;
++ (PRTweenOperation *)tween:(CGFloat*)ref from:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock;
 
-+ (void)lerp:(id)object property:(NSString*)property period:(PRTweenLerpPeriod <PRTweenLerpPeriod> *)period timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock;
++ (PRTweenOperation *)lerp:(id)object property:(NSString*)property period:(PRTweenLerpPeriod <PRTweenLerpPeriod> *)period timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock;
 
-- (PRTweenOperation*)addTweenPeriod:(PRTweenPeriod *)period updateBlock:(PRTweenUpdateBlock)updateBlock completionBlock:(PRTweenCompleteBlock)completeBlock;
-- (PRTweenOperation*)addTweenPeriod:(PRTweenPeriod *)period updateBlock:(PRTweenUpdateBlock)updateBlock completionBlock:(PRTweenCompleteBlock)completionBlock timingFunction:(PRTweenTimingFunction)timingFunction;
+- (PRTweenOperation *)addTweenPeriod:(PRTweenPeriod *)period updateBlock:(PRTweenUpdateBlock)updateBlock completionBlock:(PRTweenCompleteBlock)completeBlock;
+- (PRTweenOperation *)addTweenPeriod:(PRTweenPeriod *)period updateBlock:(PRTweenUpdateBlock)updateBlock completionBlock:(PRTweenCompleteBlock)completionBlock timingFunction:(PRTweenTimingFunction)timingFunction;
 #endif
 
 @end

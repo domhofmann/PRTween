@@ -72,6 +72,11 @@ CGFloat PRTweenTimingFunctionCAEaseOut (CGFloat, CGFloat, CGFloat, CGFloat);
 CGFloat PRTweenTimingFunctionCAEaseInOut (CGFloat, CGFloat, CGFloat, CGFloat);
 CGFloat PRTweenTimingFunctionCADefault (CGFloat, CGFloat, CGFloat, CGFloat);
 
+CGFloat PRTweenTimingFunctionUIViewLinear (CGFloat, CGFloat, CGFloat, CGFloat);
+CGFloat PRTweenTimingFunctionUIViewEaseIn (CGFloat, CGFloat, CGFloat, CGFloat);
+CGFloat PRTweenTimingFunctionUIViewEaseOut (CGFloat, CGFloat, CGFloat, CGFloat);
+CGFloat PRTweenTimingFunctionUIViewEaseInOut (CGFloat, CGFloat, CGFloat, CGFloat);
+
 CGFloat (*PRTweenTimingFunctionCACustom(CAMediaTimingFunction *timingFunction))(CGFloat, CGFloat, CGFloat, CGFloat);
 
 
