@@ -159,7 +159,8 @@ Or *globally*:
 [PRTween sharedInstance].useBuiltInAnimationsWhenPossible = NO;`
 ```
 
-The following _UIView_ properties are eligible for UIView fallbacks: 
+The following _UIView_ properties are eligible for UIView fallbacks:
+
 * frame
 * bounds
 * center
@@ -168,6 +169,7 @@ The following _UIView_ properties are eligible for UIView fallbacks:
 * contentStretch
 
 The following _CALayer_ properties are eligible Core Animation fallbacks:
+
 * bounds
 * position
 * zPosition
