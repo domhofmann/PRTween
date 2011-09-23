@@ -130,7 +130,7 @@ PRTween also supports shorthands for blocks and lerps, explained below.
 Fallbacks
 ===
 
-In many cases, the UIView or Core Animation functionality bundled with iOS  will do the job just fine. PRTween attempts to be intelligent about this, and will use a *fallback* for any property that can be animated by UIView or Core Animation.
+In many cases, the UIView or Core Animation functionality bundled with iOS  will do the job just fine. PRTween attempts to be intelligent about this, and will use a **fallback** for any property that can be animated by UIView or Core Animation.
 
 For example, writing this code in PRTween:
 
@@ -148,13 +148,13 @@ someView.alpha = 0;
 [UIView commitAnimations];
 ```
 
-Fallbacks can be disabled on a *case-by-case* with the following syntax:
+Fallbacks can be disabled on a **case-by-case** with the following syntax:
 
 ```objective-c
 [PRTween tween:someView property:@"alpha" from:1 to:0 duration:2].override = YES;
 ```
 
-Or *globally*:
+Or **globally**:
 ```objective-c
 [PRTween sharedInstance].useBuiltInAnimationsWhenPossible = NO;`
 ```
