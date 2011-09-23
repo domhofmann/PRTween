@@ -188,6 +188,18 @@ The following _CALayer_ properties are eligible Core Animation fallbacks:
 
 Support for CGColor, CGPath, and CATransform3D properties for fallbacks is forthcoming.
 
+Note the **using an unsupported timing function will disqualify an animation** that was eligible for fallbacks. Only the built-in curves bundled with iOS are supported for fallbacks. They can be accessed through the following:
+
+* PRTweenTimingFunctionCALinear
+* PRTweenTimingFunctionCAEaseIn
+* PRTweenTimingFunctionCAEaseOut
+* PRTweenTimingFunctionCAEaseInOut
+* PRTweenTimingFunctionCADefault                                 
+* PRTweenTimingFunctionUIViewLinear
+* PRTweenTimingFunctionUIViewEaseIn
+* PRTweenTimingFunctionUIViewEaseOut
+* PRTweenTimingFunctionUIViewEaseInOut
+
 Blocks
 ===
 
