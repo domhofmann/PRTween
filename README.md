@@ -14,6 +14,13 @@ PRTween aims to be as simple as possible without sacrificing flexibility. In man
 [PRTween tween:someView property:@"alpha" from:1 to:0 duration:3];
 ```
 
+In order to promote simplicity, PRTween can be used as drop-in replacement for most animations in your app. This means that in the case displayed above, the end result is _identical_ to writing a UIView animation yourself.
+
+Status
+===
+
+Alpha. We're trying our best to provide a stable API as we add new features, but you know how these things go.
+
 Installation
 ===
 
@@ -119,6 +126,65 @@ PRTween currently supports the following base shorthands:
 ```
 	
 PRTween also supports shorthands for blocks and lerps, explained below.
+
+Fallbacks
+===
+
+In many cases, the UIView or Core Animation functionality bundled with iOS  will do the job just fine. PRTween attempts to be intelligent about this, and will use a *fallback* for any property that can be animated by UIView or Core Animation.
+
+For example, writing this code in PRTween:
+
+```objective-c
+[PRTween tween:someView property:@"alpha" from:1 to:0 duration:3];
+```
+
+Is identical to writing this code without PRTween:
+
+```objective-c
+someView.alpha = 1;
+[UIView beginAnimations:nil context:NULL];
+[UIView setAnimationDuration:3];
+someView.alpha = 0;
+[UIView commitAnimations];
+```
+
+Fallbacks can be disabled on a *case-by-case* with the following syntax:
+
+```objective-c
+[PRTween tween:someView property:@"alpha" from:1 to:0 duration:2].override = YES;
+```
+
+Or *globally*:
+```objective-c
+[PRTween sharedInstance].useBuiltInAnimationsWhenPossible = NO;`
+```
+
+The following _UIView_ properties are eligible for UIView fallbacks: 
+* frame
+* bounds
+* center
+* transform
+* alpha
+* contentStretch
+
+The following _CALayer_ properties are eligible Core Animation fallbacks:
+* bounds
+* position
+* zPosition
+* anchorPoint
+* anchorPointZ
+* frame
+* contentsRect
+* conentsScale
+* contentsCenter
+* cornerRadius
+* borderWidth
+* opacity
+* shadowOpacity
+* shadowOffset
+* shadowRadius
+
+Support for CGColor, CGPath, and CATransform3D properties for fallbacks is forthcoming.
 
 Blocks
 ===
