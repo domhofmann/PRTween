@@ -14,7 +14,7 @@ PRTween aims to be as simple as possible without sacrificing flexibility. In man
 [PRTween tween:someView property:@"alpha" from:1 to:0 duration:3];
 ```
 
-In order to promote simplicity, PRTween can be used as drop-in replacement for most animations in your app. This means that in the case displayed above, the end result is _identical_ to writing a UIView animation yourself.
+In order to promote simplicity, PRTween can be used as a drop-in replacement for most animations in your app. This means that in the case displayed above, the end result is identical to writing a UIView animation yourself.
 
 Status
 ===
