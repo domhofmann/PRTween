@@ -148,13 +148,14 @@ someView.alpha = 0;
 [UIView commitAnimations];
 ```
 
-Fallbacks can be disabled on a **case-by-case** with the following syntax:
+Fallbacks can be disabled on a **case-by-case** basis with the following syntax:
 
 ```objective-c
 [PRTween tween:someView property:@"alpha" from:1 to:0 duration:2].override = YES;
 ```
 
 Or **globally**:
+
 ```objective-c
 [PRTween sharedInstance].useBuiltInAnimationsWhenPossible = NO;`
 ```
