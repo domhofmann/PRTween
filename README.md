@@ -19,7 +19,7 @@ In order to promote simplicity, PRTween can be used as a drop-in replacement for
 Status
 ===
 
-Alpha. We're trying our best to provide a stable API as we add new features, but you know how these things go.
+So alpha. Seriously.
 
 Installation
 ===
@@ -157,7 +157,7 @@ Fallbacks can be disabled on a **case-by-case** basis with the following syntax:
 Or **globally**:
 
 ```objective-c
-[PRTween sharedInstance].useBuiltInAnimationsWhenPossible = NO;`
+[PRTween sharedInstance].useBuiltInAnimationsWhenPossible = NO;
 ```
 
 The following _UIView_ properties are eligible for UIView fallbacks:
