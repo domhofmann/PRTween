@@ -122,7 +122,7 @@ CGFloat PRTweenTimingFunctionExpoOut (CGFloat t, CGFloat b, CGFloat c, CGFloat d
     return (t==d) ? b+c : c * (-pow(2, -10 * t/d) + 1) + b;
 }
 
-CGFloat PRTweenTimingFunctioExpoIn (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
+CGFloat PRTweenTimingFunctionExpoIn (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
     return (t==0) ? b : c * pow(2, 10 * (t/d - 1)) + b;
 }
 
@@ -137,7 +137,7 @@ CGFloat PRTweenTimingFunctionQuadOut (CGFloat t, CGFloat b, CGFloat c, CGFloat d
     return -c *(t/=d)*(t-2) + b;
 }
 
-CGFloat PRTweenTimingFunctioQuadIn (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
+CGFloat PRTweenTimingFunctionQuadIn (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
     return c*(t/=d)*t + b;
 }
 
@@ -150,7 +150,7 @@ CGFloat PRTweenTimingFunctionQuartOut (CGFloat t, CGFloat b, CGFloat c, CGFloat 
     return -c * ((t=t/d-1)*t*t*t - 1) + b;
 }
 
-CGFloat PRTweenTimingFunctioQuartIn (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
+CGFloat PRTweenTimingFunctionQuartIn (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
     return c*(t/=d)*t*t*t + b;
 }
 

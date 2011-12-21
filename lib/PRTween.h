@@ -108,6 +108,7 @@ typedef void (^PRTweenCompleteBlock)();
 
 @interface PRTweenCGPointLerp : NSObject
 + (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector;
++ (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration delay:(CGFloat)delay timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector;
 + (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration;
 #if NS_BLOCKS_AVAILABLE
 + (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock;
@@ -116,6 +117,7 @@ typedef void (^PRTweenCompleteBlock)();
 
 @interface PRTweenCGRectLerp : NSObject
 + (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector;
++ (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration delay:(CGFloat)delay timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector;
 + (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration;
 #if NS_BLOCKS_AVAILABLE
 + (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock;

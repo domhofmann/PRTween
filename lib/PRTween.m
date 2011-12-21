@@ -144,6 +144,12 @@
     return [PRTween lerp:object property:property period:[PRTweenCGPointLerpPeriod periodWithStartCGPoint:from endCGPoint:to duration:duration] timingFunction:timingFunction target:target completeSelector:selector];
 }
 
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration delay:(CGFloat)delay timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector {
+    PRTweenCGPointLerpPeriod *period = [PRTweenCGPointLerpPeriod periodWithStartCGPoint:from endCGPoint:to duration:duration];
+    period.delay = delay;
+    return [PRTween lerp:object property:property period:period timingFunction:timingFunction target:target completeSelector:selector];
+}
+
 + (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration {
     return [PRTweenCGPointLerp lerp:object property:property from:from to:to duration:duration timingFunction:NULL target:nil completeSelector:NULL];
 }
@@ -160,6 +166,12 @@
 
 + (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector {
     return [PRTween lerp:object property:property period:[PRTweenCGRectLerpPeriod periodWithStartCGRect:from endCGRect:to duration:duration] timingFunction:timingFunction target:target completeSelector:selector];
+}
+
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration delay:(CGFloat)delay timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector {
+    PRTweenCGRectLerpPeriod *period = [PRTweenCGRectLerpPeriod periodWithStartCGRect:from endCGRect:to duration:duration];
+    period.delay = delay;
+    return [PRTween lerp:object property:property period:period timingFunction:timingFunction target:target completeSelector:selector];
 }
 
 + (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration {
