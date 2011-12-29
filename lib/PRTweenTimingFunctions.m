@@ -99,7 +99,7 @@ CGFloat PRTweenTimingFunctionElasticOut (CGFloat t, CGFloat b, CGFloat c, CGFloa
     return (a*pow(2,-10*t) * sin( (t*d-s)*(2*M_PI)/p ) + c + b);
 }
 
-CGFloat PRTweenTimingFunctionElasticIn (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {\
+CGFloat PRTweenTimingFunctionElasticIn (CGFloat t, CGFloat b, CGFloat c, CGFloat d) {
     CGFloat p = d*.3;
     CGFloat s, a;
     if (t==0) return b;  if ((t/=d)==1) return b+c;

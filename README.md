@@ -178,7 +178,7 @@ The following _CALayer_ properties are eligible Core Animation fallbacks:
 * anchorPointZ
 * frame
 * contentsRect
-* conentsScale
+* contentsScale
 * contentsCenter
 * cornerRadius
 * borderWidth
