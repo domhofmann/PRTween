@@ -91,7 +91,7 @@
     CGRect startRect = self.startCGRect;
     CGRect endRect = self.endCGRect;
     CGRect distance = CGRectMake(endRect.origin.x - startRect.origin.x, endRect.origin.y - startRect.origin.y, endRect.size.width - startRect.size.width, endRect.size.height - startRect.size.height);
-    CGRect tweenedRect = CGRectMake(startRect.origin.x + distance.origin.x * progress, startRect.origin.y + distance.origin.y * progress, startRect.size.width + endRect.size.width * progress, startRect.size.height + endRect.size.height * progress);
+    CGRect tweenedRect = CGRectMake(startRect.origin.x + distance.origin.x * progress, startRect.origin.y + distance.origin.y * progress, startRect.size.width + distance.size.width * progress, startRect.size.height + distance.size.height * progress);
     
     return [NSValue valueWithCGRect:tweenedRect];
     
