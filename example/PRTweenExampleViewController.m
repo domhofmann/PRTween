@@ -59,11 +59,11 @@
 }
 
 - (IBAction)pointLerpTapped {
-    [PRTweenCGPointLerp lerp:testView property:@"center" from:CGPointMake(50, 50) to:CGPointMake(400, 400) duration:1.5];
+    activeTweenOperation = [PRTweenCGPointLerp lerp:testView property:@"center" from:CGPointMake(50, 50) to:CGPointMake(400, 400) duration:1.5];
 }
 
 - (IBAction)rectLerpTapped {
-    [PRTweenCGRectLerp lerp:testView property:@"frame" from:CGRectMake(0, 0, 100, 100) to:CGRectMake(100, 100, 250, 250) duration:3 timingFunction:&PRTweenTimingFunctionElasticOut target:nil completeSelector:NULL];
+    activeTweenOperation = [PRTweenCGRectLerp lerp:testView property:@"frame" from:CGRectMake(0, 0, 100, 100) to:CGRectMake(100, 100, 250, 250) duration:3 timingFunction:&PRTweenTimingFunctionElasticOut target:nil completeSelector:NULL];
 }
 
 - (IBAction)verboseTapped {
@@ -75,6 +75,7 @@
     operation.updateSelector = @selector(update:);
     
     [[PRTween sharedInstance] addTweenOperation:operation];
+    activeTweenOperation = operation;
 }
 
 - (IBAction)blockTapped {
@@ -86,7 +87,7 @@
 }
 
 - (IBAction)shorthandTapped {
-    [PRTweenCGPointLerp lerp:testView property:@"center" from:CGPointMake(50, 50) to:CGPointMake(250, 250) duration:1.5];
+    activeTweenOperation = [PRTweenCGPointLerp lerp:testView property:@"center" from:CGPointMake(50, 50) to:CGPointMake(250, 250) duration:1.5];
 }
 
 - (void)viewDidUnload

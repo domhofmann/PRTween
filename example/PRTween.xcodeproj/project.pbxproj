@@ -16,6 +16,7 @@
 		B25002D2139558F700670D11 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = B25002D0139558F700670D11 /* MainWindow.xib */; };
 		B25002D5139558F700670D11 /* PRTweenExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B25002D4139558F700670D11 /* PRTweenExampleViewController.m */; };
 		B25002D8139558F700670D11 /* PRTweenExampleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B25002D6139558F700670D11 /* PRTweenExampleViewController.xib */; };
+		B4794CE814D20D5500C5088E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4794CE714D20D5500C5088E /* QuartzCore.framework */; };
 		B4A2EBFD13C8AFAE006EB549 /* PRTweenTimingFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A2EBFB13C8AFAE006EB549 /* PRTweenTimingFunctions.m */; };
 		B4F3069513C8BFCA00355204 /* PRTween.m in Sources */ = {isa = PBXBuildFile; fileRef = B4F3069313C8BFCA00355204 /* PRTween.m */; };
 /* End PBXBuildFile section */
@@ -36,6 +37,7 @@
 		B25002D4139558F700670D11 /* PRTweenExampleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PRTweenExampleViewController.m; sourceTree = "<group>"; };
 		B25002D7139558F700670D11 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PRTweenExampleViewController.xib; sourceTree = "<group>"; };
 		B25002DE1395591F00670D11 /* PRTween.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PRTween.h; path = ../lib/PRTween.h; sourceTree = "<group>"; };
+		B4794CE714D20D5500C5088E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B4A2EBFB13C8AFAE006EB549 /* PRTweenTimingFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PRTweenTimingFunctions.m; path = ../lib/PRTweenTimingFunctions.m; sourceTree = "<group>"; };
 		B4A2EBFC13C8AFAE006EB549 /* PRTweenTimingFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PRTweenTimingFunctions.h; path = ../lib/PRTweenTimingFunctions.h; sourceTree = "<group>"; };
 		B4F3069313C8BFCA00355204 /* PRTween.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PRTween.m; path = ../lib/PRTween.m; sourceTree = "<group>"; };
@@ -46,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4794CE814D20D5500C5088E /* QuartzCore.framework in Frameworks */,
 				B25002BF139558F700670D11 /* UIKit.framework in Frameworks */,
 				B25002C1139558F700670D11 /* Foundation.framework in Frameworks */,
 				B25002C3139558F700670D11 /* CoreGraphics.framework in Frameworks */,
@@ -58,6 +61,7 @@
 		B25002AF139558F700670D11 = {
 			isa = PBXGroup;
 			children = (
+				B4794CE714D20D5500C5088E /* QuartzCore.framework */,
 				B262C66A1397D0550092094F /* Example */,
 				B25002C4139558F700670D11 /* PRTween */,
 				B25002BD139558F700670D11 /* Frameworks */,
@@ -145,6 +149,7 @@
 		B25002B1139558F700670D11 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = Jetsetter;
 			};
 			buildConfigurationList = B25002B4139558F700670D11 /* Build configuration list for PBXProject "PRTween" */;
