@@ -282,6 +282,7 @@ Contributors
 
 * [Dominik Hofmann](https://github.com/dominikhofmann/)
 * [Matt Herzog](https://github.com/mattherzog/)
+* [Robert Brisita](https://github.com/transmitiveRB/)
 
 License
 ===
