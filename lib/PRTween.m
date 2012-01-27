@@ -617,14 +617,10 @@ complete:
                 
                 // Check to see if blocks/GCD are supported
                 if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_4_0) {
-                    double delayInSeconds = 0.0;
-                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                        // fire off update block
-                        if (tweenOperation.updateBlock != NULL) {
-                            tweenOperation.updateBlock(period);
-                        } 
-                    });
+                    // fire off update block
+                    if (tweenOperation.updateBlock != NULL) {
+                        tweenOperation.updateBlock(period);
+                    } 
                 }
             }
         } else if (tweenOperation.canUseBuiltAnimation == YES) {
