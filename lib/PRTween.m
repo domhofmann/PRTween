@@ -560,7 +560,7 @@ complete:
 - (void)removeTweenOperation:(PRTweenOperation *)tweenOperation {
     if (tweenOperation != nil) {
         if ([tweenOperations containsObject:tweenOperation]) {
-            [tweenOperations removeObject:tweenOperation];
+            [expiredTweenOperations addObject:tweenOperation];
         }
     }
 }
