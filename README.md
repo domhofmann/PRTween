@@ -31,7 +31,7 @@ Usage
 
 At its core, PRTween is broken into two components.
 
-A **period** is a representation of three points in time (beginning, current, and end) for a particular value that you plan on tweening. For example, suppose that are tweening a value from 100 to 200 over the course of 3 seconds. You can create an object to represent that period like this:
+A **period** is a representation of three points in time (beginning, current, and end) for a particular value that you plan on tweening. For example, suppose that you are tweening a value from 100 to 200 over the course of 3 seconds. You can create an object to represent that period like this:
 
 ```objective-c
 PRTweenPeriod *period = [PRTweenPeriod periodWithStartValue:100 endValue:200 duration:3];
