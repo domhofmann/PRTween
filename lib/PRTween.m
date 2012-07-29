@@ -103,6 +103,32 @@
 
 @end
 
+@implementation PRTweenCGSizeLerpPeriod
+
++ (id)periodWithStartCGSize:(CGSize)aStartSize endCGSize:(CGSize)anEndSize duration:(CGFloat)duration {
+    return [PRTweenCGRectLerpPeriod periodWithStartValue:[NSValue valueWithCGSize:aStartSize] endValue:[NSValue valueWithCGSize:anEndSize] duration:duration];
+}
+
+- (CGSize)startCGSize { return [self.startLerp CGSizeValue]; }
+- (CGSize)tweenedCGSize { return [self.tweenedLerp CGSizeValue]; }
+- (CGSize)endCGSize { return [self.endLerp CGSizeValue]; }
+
+- (NSValue *)tweenedValueForProgress:(CGFloat)progress {
+    
+    CGSize startSize = self.startCGSize;
+    CGSize endSize = self.endCGSize;
+    CGSize distance = CGSizeMake(endSize.width - startSize.width, endSize.height - startSize.height);
+    CGSize tweenedSize = CGSizeMake(startSize.width + distance.width * progress, startSize.height + distance.height * progress);
+    return [NSValue valueWithCGSize:tweenedSize];
+    
+}
+
+- (void)setProgress:(CGFloat)progress {
+    self.tweenedLerp = [self tweenedValueForProgress:progress];
+}
+
+@end
+
 @interface PRTweenOperation ()
 @property (nonatomic) BOOL canUseBuiltAnimation;
 @end
@@ -181,6 +207,30 @@
 #if NS_BLOCKS_AVAILABLE
 + (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock { 
     return [PRTweenCGRectLerp lerp:object property:property from:from to:to duration:duration timingFunction:NULL updateBlock:updateBlock completeBlock:completeBlock];
+}
+#endif
+
+@end
+
+@implementation PRTweenCGSizeLerp
+
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGSize)from to:(CGSize)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector {
+    return [PRTween lerp:object property:property period:[PRTweenCGSizeLerpPeriod periodWithStartCGSize:from endCGSize:to duration:duration] timingFunction:timingFunction target:target completeSelector:selector];
+}
+
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGSize)from to:(CGSize)to duration:(CGFloat)duration delay:(CGFloat)delay timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector {
+    PRTweenCGPointLerpPeriod *period = [PRTweenCGSizeLerpPeriod periodWithStartCGSize:from endCGSize:to duration:duration];
+    period.delay = delay;
+    return [PRTween lerp:object property:property period:period timingFunction:timingFunction target:target completeSelector:selector];
+}
+
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGSize)from to:(CGSize)to duration:(CGFloat)duration {
+    return [PRTweenCGSizeLerp lerp:object property:property from:from to:to duration:duration timingFunction:NULL target:nil completeSelector:NULL];
+}
+
+#if NS_BLOCKS_AVAILABLE
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGSize)from to:(CGSize)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock {
+    return [PRTween lerp:object property:property period:[PRTweenCGSizeLerpPeriod periodWithStartCGSize:from endCGSize:to duration:duration] timingFunction:timingFunction updateBlock:updateBlock completeBlock:completeBlock];
 }
 #endif
 

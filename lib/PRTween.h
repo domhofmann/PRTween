@@ -65,6 +65,13 @@ typedef void (^PRTweenCompleteBlock)();
 - (CGRect)endCGRect;
 @end
 
+@interface PRTweenCGSizeLerpPeriod : PRTweenLerpPeriod <PRTweenLerpPeriod>
++ (id)periodWithStartCGSize:(CGSize)aStartSize endCGSize:(CGSize)anEndSize duration:(CGFloat)duration;
+- (CGSize)startCGSize;
+- (CGSize)tweenedCGSize;
+- (CGSize)endCGSize;
+@end
+
 @interface PRTweenOperation : NSObject {
     PRTweenPeriod *period;
     NSObject *target;
@@ -121,6 +128,15 @@ typedef void (^PRTweenCompleteBlock)();
 + (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration;
 #if NS_BLOCKS_AVAILABLE
 + (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock;
+#endif
+@end
+
+@interface PRTweenCGSizeLerp : NSObject
++ (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGSize)from to:(CGSize)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector;
++ (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGSize)from to:(CGSize)to duration:(CGFloat)duration delay:(CGFloat)delay timingFunction:(PRTweenTimingFunction)timingFunction target:(NSObject *)target completeSelector:(SEL)selector;
++ (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGSize)from to:(CGSize)to duration:(CGFloat)duration;
+#if NS_BLOCKS_AVAILABLE
++ (PRTweenOperation *)lerp:(id)object property:(NSString*)property from:(CGSize)from to:(CGSize)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock;
 #endif
 @end
 
