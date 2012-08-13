@@ -239,12 +239,16 @@ Sometimes you will find it necessary to animate a complex value, such as a `CGPo
 PRTweenCGPointLerpPeriod *period = [PRTweenCGPointLerpPeriod periodWithStartCGPoint:CGPointMake(0, 0) endCGPoint:CGPointMake(100, 100) duration:2];
 ```
 
-PRTween currently has built-in lerps for `CGPoint` and `CGRect` through `PRTweenCGPointLerpPeriod` and `PRTweenCGRectLerpPeriod`. Lerps are also available as shorthands:
+PRTween currently has built-in lerps for `CGPoint` and `CGRect` and `CGSize` through `PRTweenCGPointLerpPeriod`, `PRTweenCGRectLerpPeriod` and `PRTweenCGSizeLerpPeriod`. Lerps are also available as shorthands:
 
 ```objective-c
 // for CGPoint
 [PRTweenCGPointLerp lerp:property:from:to:duration:timingFunction:target:completeSelector:]
 [PRTweenCGPointLerp lerp:property:from:to:duration:]
+
+// for CGSize
+[PRTweenCGSizeLerp lerp:property:from:to:duration:timingFunction:target:completeSelector:]
+[PRTweenCGSizeLerp lerp:property:from:to:duration:]
 
 // for CGRect
 [PRTweenCGRectLerp lerp:property:from:to:duration:timingFunction:target:completeSelector:]
@@ -253,6 +257,7 @@ PRTween currently has built-in lerps for `CGPoint` and `CGRect` through `PRTween
 
 // blocks for iOS 4 or greater
 [PRTweenCGPointLerp lerp:property:from:to:duration:timingFunction:target:updateBlock:completeBlock:]
+[PRTweenCGSizeLerp lerp:property:from:to:duration:timingFunction:target:updateBlock:completeBlock:]
 [PRTweenCGRectLerp lerp:property:from:to:duration:timingFunction:target:updateBlock:completeBlock:]
 ```
 
@@ -283,6 +288,7 @@ Contributors
 * [Dominik Hofmann](https://github.com/dominikhofmann/)
 * [Matt Herzog](https://github.com/mattherzog/)
 * [Robert Brisita](https://github.com/transmitiveRB/)
+* [Ludwig Schubert](https://github.com/ludwigschubert)
 
 License
 ===
