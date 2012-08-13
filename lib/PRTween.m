@@ -188,7 +188,7 @@
 
 #if NS_BLOCKS_AVAILABLE
 + (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock { 
-    return [PRTweenCGRectLerp lerp:object property:property from:from to:to duration:duration timingFunction:NULL updateBlock:updateBlock completeBlock:completeBlock];
+    return [PRTweenCGRectLerp lerp:object property:property from:from to:to duration:duration timingFunction:timingFunction updateBlock:updateBlock completeBlock:completeBlock];
 }
 #endif
 
