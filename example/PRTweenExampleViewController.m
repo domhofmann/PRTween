@@ -3,12 +3,6 @@
 
 @implementation PRTweenExampleViewController
 
-- (void)dealloc
-{
-    [testView release];
-    [super dealloc];
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -93,7 +87,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [testView release];
+    testView = nil;
 }
 
 @end
