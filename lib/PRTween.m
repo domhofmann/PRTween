@@ -166,6 +166,14 @@
 + (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock {
     return [PRTween lerp:object property:property period:[PRTweenCGPointLerpPeriod periodWithStartCGPoint:from endCGPoint:to duration:duration] timingFunction:timingFunction updateBlock:updateBlock completeBlock:completeBlock];
 }
+
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGPoint)from to:(CGPoint)to duration:(CGFloat)duration delay:(CGFloat)delay timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock {
+    
+    PRTweenCGPointLerpPeriod *period = [PRTweenCGPointLerpPeriod periodWithStartCGPoint:from endCGPoint:to duration:duration];
+    [period setDelay:delay];
+    
+    return [PRTween lerp:object property:property period:period timingFunction:timingFunction updateBlock:updateBlock completeBlock:completeBlock];
+}
 #endif
 
 @end
@@ -188,7 +196,15 @@
 
 #if NS_BLOCKS_AVAILABLE
 + (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock { 
-    return [PRTweenCGRectLerp lerp:object property:property from:from to:to duration:duration timingFunction:timingFunction updateBlock:updateBlock completeBlock:completeBlock];
+    return [PRTween lerp:object property:property period:[PRTweenCGRectLerpPeriod periodWithStartCGRect:from endCGRect:to duration:duration] timingFunction:timingFunction updateBlock:updateBlock completeBlock:completeBlock];
+}
+
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGRect)from to:(CGRect)to duration:(CGFloat)duration delay:(CGFloat)delay timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock {
+    
+    PRTweenCGRectLerpPeriod *period = [PRTweenCGRectLerpPeriod periodWithStartCGRect:from endCGRect:to duration:duration];
+    [period setDelay:delay];
+    
+    return [PRTween lerp:object property:property period:period timingFunction:timingFunction updateBlock:updateBlock completeBlock:completeBlock];
 }
 #endif
 
@@ -213,6 +229,14 @@
 #if NS_BLOCKS_AVAILABLE
 + (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGSize)from to:(CGSize)to duration:(CGFloat)duration timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock {
     return [PRTween lerp:object property:property period:[PRTweenCGSizeLerpPeriod periodWithStartCGSize:from endCGSize:to duration:duration] timingFunction:timingFunction updateBlock:updateBlock completeBlock:completeBlock];
+}
+
++ (PRTweenOperation *)lerp:(id)object property:(NSString *)property from:(CGSize)from to:(CGSize)to duration:(CGFloat)duration delay:(CGFloat)delay timingFunction:(PRTweenTimingFunction)timingFunction updateBlock:(PRTweenUpdateBlock)updateBlock completeBlock:(PRTweenCompleteBlock)completeBlock {
+    
+    PRTweenCGSizeLerpPeriod *period = [PRTweenCGSizeLerpPeriod periodWithStartCGSize:from endCGSize:to duration:duration];
+    [period setDelay:delay];
+    
+    return [PRTween lerp:object property:property period:period timingFunction:timingFunction updateBlock:updateBlock completeBlock:completeBlock];
 }
 #endif
 
